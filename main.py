@@ -8,6 +8,10 @@ def create_app():
 
     @app.route('/emby_webhook', methods=['POST'])
     def index():
+        print('Got something')
+        print(request.data)
+
+
         request_json = request.get_json()
         event = request_json.get('Event')
         if not event:
