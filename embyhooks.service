@@ -1,0 +1,14 @@
+[Unit]
+Description=Emby webhooks
+After=network.target
+
+[Service]
+Type=simple
+User=toni
+WorkingDirectory=/home/toni/emby-webhooks/
+ExecStart=/home/toni/emby-webhooks/venv/bin/gunicorn run:app
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target
