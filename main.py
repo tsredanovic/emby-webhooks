@@ -1,3 +1,4 @@
+import requests
 from flask import Flask, request, json
 
 
@@ -36,7 +37,10 @@ def create_app():
             elif event_action == 'stop':
                 message = 'User `{}` stopped `{}`.'.format(user_name, item_name)
 
-        print(message)
+        requests.post(
+            url=app.config.get('DISCORD_WEBHOOK_URL'),
+            data={'content': message}
+        )
         return ''
 
     return app

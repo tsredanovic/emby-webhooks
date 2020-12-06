@@ -4,4 +4,4 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-API_KEY = os.getenv('API_KEY')
+DISCORD_WEBHOOK_URL = os.getenv('DISCORD_WEBHOOK_URL')
