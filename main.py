@@ -26,7 +26,7 @@ def create_app():
         # Playback
         elif event_category == 'playback':
             user_name = request_json.get('User', {}).get('Name', None)
-            item_name = request_json.get('Item', {}).get('Name', None)
+            item_name = request_json.get('Item', {}).get('Path', None).split('/')[-1]
             if event_action == 'start':
                 message = 'User `{}` started playing `{}`.'.format(user_name, item_name)
             elif event_action == 'pause':
