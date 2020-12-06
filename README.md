@@ -1,2 +1,2 @@
-# emby_webhooks
+# emby-webhooks
 Service which catches emby webhooks, manipulates them and passes them along.
