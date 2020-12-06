@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, json
 
 
 def create_app():
@@ -8,12 +8,8 @@ def create_app():
 
     @app.route('/emby_webhook', methods=['POST'])
     def index():
-        print('Got something')
-        print(request.form)
-
-
-        request_json = request.get_json()
-        event = request_json.get('Event')
+        request_json = json.loads(request.form.get('data', {}))
+        event = request_json.get('Event', None)
         if not event:
             print('Missing event.')
         print('Got event: {}'.format(event))
