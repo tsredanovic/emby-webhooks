@@ -12,8 +12,7 @@ def create_app():
         request_json = json.loads(request.form.get('data', {}))
         event = request_json.get('Event', None)
         if not event:
-            print('Missing event.')
-        print('Got event: {}'.format(event))
+            return ''
         event_category = event.split('.')[0]
         event_action = event.split('.')[1]
 
