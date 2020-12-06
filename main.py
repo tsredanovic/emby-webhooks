@@ -9,7 +9,7 @@ def create_app():
     @app.route('/emby_webhook', methods=['POST'])
     def index():
         print('Got something')
-        print(request.data)
+        print(request.form)
 
 
         request_json = request.get_json()
