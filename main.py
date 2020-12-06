@@ -6,8 +6,9 @@ def create_app():
 
     app.config.from_pyfile('settings.py')
 
-    @app.route('/')
+    @app.route('/emby_webhook', methods=['POST'])
     def index():
-        return f'API_KEY = { app.config.get("API_KEY") }'
+        print('GOT SOMETHING')
+        return ''
 
     return app
