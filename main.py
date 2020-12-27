@@ -1,45 +1,22 @@
-import requests
 from flask import Flask, request, json
+
+import settings
+from discord import DiscordReport
+from emby import EmbyEvent
+from mongo import MongoUpload
 
 
 def create_app():
     app = Flask(__name__)
 
-    app.config.from_pyfile('settings.py')
-
     @app.route('/emby_webhook', methods=['POST'])
     def index():
         request_json = json.loads(request.form.get('data', {}))
-        event = request_json.get('Event', None)
-        if not event:
-            return ''
-        event_category = event.split('.')[0]
-        event_action = event.split('.')[1]
 
-        message = None
+        event = EmbyEvent(request_json)
+        DiscordReport(settings.DISCORD_WEBHOOK_URL, event).send()
+        MongoUpload(settings.MONGO_DB_USERNAME, settings.MONGO_DB_PASSWORD, settings.MONGO_DB_NAME, event).upload()
 
-        # System
-        if event_category == 'system':
-            if event_action == 'webhooktest':
-                message = 'Test.'
-
-        # Playback
-        elif event_category == 'playback':
-            user_name = request_json.get('User', {}).get('Name', None)
-            item_name = request_json.get('Item', {}).get('Path', None).split('/')[-1]
-            if event_action == 'start':
-                message = 'User `{}` started playing `{}`.'.format(user_name, item_name)
-            elif event_action == 'pause':
-                message = 'User `{}` paused `{}`.'.format(user_name, item_name)
-            elif event_action == 'unpause':
-                message = 'User `{}` unpaused `{}`.'.format(user_name, item_name)
-            elif event_action == 'stop':
-                message = 'User `{}` stopped `{}`.'.format(user_name, item_name)
-
-        requests.post(
-            url=app.config.get('DISCORD_WEBHOOK_URL'),
-            data={'content': message}
-        )
         return ''
 
     return app
