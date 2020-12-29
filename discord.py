@@ -1,29 +1,32 @@
 import requests
 
+import settings
 
-class DiscordReport:
-    def __init__(self, webhook_url, event):
-        self.webhook_url = webhook_url
-        self.create_message(event)
 
-    def create_message(self, event):
-        # System
-        if event.category == 'system':
-            if event.action == 'webhooktest':
-                self.message = 'Test.'
-        # Playback
-        elif event.category == 'playback':
-            if event.action == 'start':
-                self.message = 'User `{}` started playing `{}`.'.format(event.user_name, event.item_name)
-            elif event.action == 'pause':
-                self.message = 'User `{}` paused `{}`.'.format(event.user_name, event.item_name)
-            elif event.action == 'unpause':
-                self.message = 'User `{}` unpaused `{}`.'.format(event.user_name, event.item_name)
-            elif event.action == 'stop':
-                self.message = 'User `{}` stopped `{}`.'.format(event.user_name, event.item_name)
+def report_to_discord(event):
+    # Create message
+    message = None
 
-    def send(self):
-        requests.post(
-            url=self.webhook_url,
-            data={'content': self.message}
-        )
+    # System
+    if event.category == 'system':
+        if event.action == 'webhooktest':
+            message = 'Test.'
+    # Playback
+    elif event.category == 'playback':
+        if event.action == 'start':
+            message = 'User `{}` started playing `{}`.'.format(event.user_name, event.item_name)
+        elif event.action == 'pause':
+            message = 'User `{}` paused `{}`.'.format(event.user_name, event.item_name)
+        elif event.action == 'unpause':
+            message = 'User `{}` unpaused `{}`.'.format(event.user_name, event.item_name)
+        elif event.action == 'stop':
+            message = 'User `{}` stopped `{}`.'.format(event.user_name, event.item_name)
+
+    if not message:
+        return
+
+    # Report
+    requests.post(
+        url=settings.DISCORD_WEBHOOK_URL,
+        data={'content': message}
+    )

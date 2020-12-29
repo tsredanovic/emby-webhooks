@@ -1,9 +1,8 @@
 from flask import Flask, request, json
 
-import settings
-from discord import DiscordReport
+from discord import report_to_discord
 from emby import EmbyEvent
-from mongo import MongoUpload
+from mongo import upload_to_mongo
 
 
 def create_app():
@@ -14,8 +13,8 @@ def create_app():
         request_json = json.loads(request.form.get('data', {}))
 
         event = EmbyEvent(request_json)
-        DiscordReport(settings.DISCORD_WEBHOOK_URL, event).send()
-        MongoUpload(settings.MONGO_DB_USERNAME, settings.MONGO_DB_PASSWORD, settings.MONGO_DB_NAME, event).upload()
+        report_to_discord(event)
+        upload_to_mongo(event)
 
         return ''
 
