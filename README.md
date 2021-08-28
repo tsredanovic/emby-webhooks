@@ -114,6 +114,14 @@ pip install -r requirements.txt
   - **Template file:** `templates/item.markunplayed.txt`
   - **Default message:** User `{username}` marked `{filename}` as `Unplayed`.
 
+### Other events
+
+- Send Test Webhook
+  - **Event:** `system.webhooktest`
+  - **Trigger:** Sending test webhook.
+  - **Template file:** `templates/system.webhooktest.txt`
+  - **Default message:** Got event `{event}` from server `{servername}` with ID: `{serverid}`.
+
 
 ## Messages
 
@@ -121,7 +129,7 @@ Messages are generated using the [Jinja](https://jinja.palletsprojects.com/) tem
 
 A message template for each event must be located inside the `templates` directory with the following naming syntax: `{Event}.txt`.
 
-Default templates are provided for some events as described in the [Events](#events) section. Each of them can be customized (or new one added) to your liking by following the Jinja's [Template Designer Documentation](https://jinja.palletsprojects.com/templates/).
+Default templates are provided for some events as described in the [Events](#events) section. Each of them can be customized (or new ones added) to your liking by following the Jinja's [Template Designer Documentation](https://jinja.palletsprojects.com/templates/).
 
 
 ## Running
