@@ -1,0 +1,2 @@
+{% set file_name = Item.Path.split('/')[-1] %}
+User `{{ User.Name }}` started `{{ file_name }}`.

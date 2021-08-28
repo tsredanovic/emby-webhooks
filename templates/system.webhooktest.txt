@@ -1,0 +1,1 @@
+Got event `{{ Event }}` from server `{{ Server.Name }}` with ID: `{{ Server.Id }}`.
