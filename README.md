@@ -134,8 +134,41 @@ Default templates are provided for some events as described in the [Events](#eve
 
 ## Running
 
-TODO
+1. Create systemd service file `/etc/systemd/system/embyhooks.service`
+    ```service
+    sudo nano /etc/systemd/system/embyhooks.service
+    ```
 
+    The content of the file is:
+    ```conf
+    [Unit]
+    Description=Emby webhooks
+    After=network.target
+
+    [Service]
+    Type=simple
+    User=root
+    Group=root
+    WorkingDirectory=/full/path/to/emby-webhooks/
+    ExecStart=/full/path/to/emby-webhooks/venv/bin/gunicorn run:app -b 0.0.0.0:64921
+    Restart=always
+    RestartSec=3
+
+    [Install]
+    WantedBy=multi-user.target
+    ```
+
+    This will run the service available on your local network with device's local IP address and port `64921`. If you want to have the service available only on the device (localhost) you should change `0.0.0.0` to `127.0.0.1`. To switch to another port replace `64921` with whichever port number you want (just make sure it is available).
+
+2. Enable service start on system boot
+    ```bash
+    sudo systemctl enable embyhooks.service
+    ```
+
+3. Using the service
+    - `sudo systemctl status embyhooks.service` - show service status
+    - `sudo systemctl start embyhooks.service` - start service
+    - `sudo systemctl stop embyhooks.service` - stop service
 
 ## License
 
