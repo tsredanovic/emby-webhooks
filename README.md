@@ -139,6 +139,8 @@ Default templates are provided for some events as described in the [Events](#eve
     sudo nano /etc/systemd/system/embyhooks.service
     ```
 
+    Replace `/full/path/to/` with full path to `emby-webhooks` cloned repository and `root` to user which runs the service (if appropriate). Then, after saving the file, you need to reload systemd's daemons: `sudo systemctl daemon-reload`. 
+    
     The content of the file is:
     ```conf
     [Unit]
