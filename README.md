@@ -167,8 +167,8 @@ Default templates are provided for some events as described in the [Events](#eve
 
 3. Using the service
     - `sudo systemctl status embyhooks.service` - show service status
-    - `sudo systemctl start embyhooks.service` - start service
-    - `sudo systemctl stop embyhooks.service` - stop service
+    - `sudo systemctl start embyhooks.service` - start the service
+    - `sudo systemctl stop embyhooks.service` - stop the service
 
 ## License
 
