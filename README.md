@@ -172,6 +172,13 @@ Default templates are provided for some events as described in the [Events](#eve
     - `sudo systemctl start embyhooks.service` - start the service
     - `sudo systemctl stop embyhooks.service` - stop the service
 
+
+## Emby configuration
+
+Add new webhook with the following URL: `http://{ip}:{port}/emby_webhook` and subscribe to events you want to receive notifications for.
+- ip - ip address on which the service is reachable
+- port - port on which the service is reachable
+
 ## License
 
 **Emby Webhooks** is a free software under terms of the `MIT License`.
