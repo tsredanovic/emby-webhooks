@@ -32,17 +32,13 @@ pip install -r requirements.txt
 
 1. Create a discord webhook as explained [here](https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks).
 
-2. Create a `config.json` file next to the `main.py` file in `emby-webhooks` repository. 
-`config.json` file must contain:
-    - `discord_webhook_urls` - list of discord webhook URLs (multiple are supported, but one is enough)
+2. Create a `.env` file next to the `main.py` file in `emby-webhooks` repository. 
+`.env` file must contain:
+    - `DISCORD_WEBHOOK_URLS` - comma separated list of discord webhook URLs (multiple are supported, but one is enough)
 
-`config.json` example:
-```json
-{
-    "discord_webhook_urls": [
-        "_your_discord_webhook_url_"
-    ]
-}
+`.env` example:
+```txt
+DISCORD_WEBHOOK_URLS=_your_discord_webhook_url_
 ```
 
 
@@ -175,7 +171,7 @@ Default templates are provided for some events as described in the [Events](#eve
 
 ## Emby configuration
 
-Add new webhook with the following URL: `http://{ip}:{port}/emby_webhook` and subscribe to events you want to receive notifications for.
+Add new webhook with the following URL: `http://{ip}:{port}/emby-webhook` and subscribe to events you want to receive notifications for.
 - ip - ip address on which the service is reachable
 - port - port on which the service is reachable
 

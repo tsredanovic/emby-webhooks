@@ -1,5 +1,6 @@
 import os
 from pathlib import Path
+from dotenv import load_dotenv
 from flask import Flask, request, json
 import jinja2
 import requests
@@ -7,14 +8,9 @@ import requests
 
 ### Config
 
-CONFIG_PATH = os.environ.get('EW_CONFIG_PATH', Path.joinpath(Path(__file__).resolve().parent, 'config.json'))
+load_dotenv()
 
-Path.joinpath(Path(__file__).resolve().parent, 'config.json')
-
-with open(CONFIG_PATH) as f:
-    config_json = json.load(f)
-
-DISCORD_WEBHOOK_URLS = config_json.get('discord_webhook_urls', [])
+DISCORD_WEBHOOK_URLS = os.environ['DISCORD_WEBHOOK_URLS'].split(',')
 
 
 ### Templates
@@ -39,7 +35,7 @@ def report_to_discord(message):
 def create_app():
     app = Flask(__name__)
 
-    @app.route('/emby_webhook', methods=['POST'])
+    @app.route('/emby-webhook', methods=['POST'])
     def index():
         event_data = json.loads(request.form.get('data', {}))
 
