@@ -3,45 +3,6 @@
 Service which catches emby webhooks, generates messages and sends Discord notifications.
 
 
-## Installation
-
-1. Clone this repository
-
-2. `cd` into the root directory
-```
-cd emby-webhooks
-```
-
-3. Create a python virtual environment
-```bash
-python3 -m venv venv
-```
-
-4. Activate the created virtual environment
-```bash
-source venv/bin/activate
-```
-
-5. Install requirements
-```bash
-pip install -r requirements.txt
-```
-
-
-## Configuration
-
-1. Create a discord webhook as explained [here](https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks).
-
-2. Create a `.env` file next to the `main.py` file in `emby-webhooks` repository. 
-`.env` file must contain:
-    - `DISCORD_WEBHOOK_URLS` - comma separated list of discord webhook URLs (multiple are supported, but one is enough)
-
-`.env` example:
-```txt
-DISCORD_WEBHOOK_URLS=_your_discord_webhook_url_
-```
-
-
 ## Events
 
 ### System events
@@ -128,7 +89,49 @@ A message template for each event must be located inside the `templates` directo
 Default templates are provided for some events as described in the [Events](#events) section. Each of them can be customized (or new ones added) to your liking by following the Jinja's [Template Designer Documentation](https://jinja.palletsprojects.com/templates/).
 
 
-## Running
+## Discord webhook creation
+
+Create a discord webhook as explained [here](https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks).
+
+
+## Running with [Systemd](https://systemd.io/)
+
+### Installation
+
+1. Clone this repository
+
+2. `cd` into the root directory
+```
+cd emby-webhooks
+```
+
+3. Create a python virtual environment
+```bash
+python3 -m venv venv
+```
+
+4. Activate the created virtual environment
+```bash
+source venv/bin/activate
+```
+
+5. Install requirements
+```bash
+pip install -r requirements.txt
+```
+
+### Configuration
+
+1. Create a `.env` file next to the `main.py` file in `emby-webhooks` repository. 
+`.env` file must contain:
+    - `DISCORD_WEBHOOK_URLS` - comma separated list of discord webhook URLs (multiple are supported, but one is enough)
+
+    `.env` example:
+    ```txt
+    DISCORD_WEBHOOK_URLS=_your_discord_webhook_url_
+    ```
+
+### Running
 
 1. Create systemd service file `/etc/systemd/system/embyhooks.service`
     ```service
@@ -168,6 +171,29 @@ Default templates are provided for some events as described in the [Events](#eve
     - `sudo systemctl start embyhooks.service` - start the service
     - `sudo systemctl stop embyhooks.service` - stop the service
 
+
+## Running with [Docker](https://www.docker.com/)
+
+Repository can be found [here](https://hub.docker.com/r/tsredanovic/emby-webhooks).
+
+### Running
+
+Command [docker run](https://docs.docker.com/engine/reference/commandline/run/) is used to run the service in a new container.
+
+This is a common example of how to run the `emby-webhooks` service inside the `emby-webhooks-container`:
+
+```bash
+docker run --detach --publish 64921:64921 --env DISCORD_WEBHOOK_URLS='_your_discord_webhook_url_' --restart always --name emby-webhooks-container tsredanovic/emby-webhooks:latest
+```
+
+Arguments:
+- `--detach` - Run container in background and print container ID.
+- `--publish` - Publish a container's port(s) to the host.
+- `--env` - Set environment variables.
+  - `DISCORD_WEBHOOK_URLS` - Comma separated list of discord webhook URLs (multiple are supported, but one is enough). This environment variable is required.
+- `--restart` - Restart policy to apply when a container exits.
+  - `always` - Always restart the container regardless of the exit status. When you specify always, the Docker daemon will try to restart the container indefinitely. The container will also always start on daemon startup, regardless of the current state of the container.
+- `--name` - Assign a name to the container.
 
 ## Emby configuration
 
